@@ -13,8 +13,13 @@ from pathlib import Path
 
 API = 'https://api.github.com/repos/willfaust/Madeira/releases?per_page=20'
 OUT = Path('source.json')
-HEADERS = {'User-Agent': 'madeira-altstore-source', 'Accept': 'application/vnd.github+json'}
+HEADERS = {
+    'User-Agent': 'madeira-altstore-source',
+    'Accept': 'application/vnd.github+json',
+}
 
+if os.environ.get('GITHUB_TOKEN'):
+    HEADERS['Authorization'] = f"Bearer {os.environ['GITHUB_TOKEN']}"
 
 def fetch_json(url):
     req = urllib.request.Request(url, headers=HEADERS)
