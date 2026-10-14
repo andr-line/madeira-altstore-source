@@ -16,6 +16,8 @@ jobs:
         with:
           persist-credentials: true
       - name: Generate AltStore metadata
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 update.py
       - name: Commit changes (if any)
         run: |
