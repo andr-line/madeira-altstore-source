@@ -55,8 +55,10 @@ def ipa_details(filename):
                 target = Path(tmp) / f'bin{len(entitlements)}_{len(privacy)}_{len(plist_name)}'
                 target.write_bytes(archive.read(binary))
                 # Apple's codesign reads entitlements from the embedded Mach-O signature.
-                proc = subprocess.run(['codesign', '-d', '--entitlements', '-', str(target)],
-                                      capture_output=True)
+                proc = subprocess.run(
+                    ['codesign', '-d', '--entitlements', '-', '--xml', str(target)],
+                    capture_output=True
+                    )
                 if proc.returncode != 0:
                     raise RuntimeError(f'Cannot inspect entitlements of {binary}: {proc.stderr.decode(errors="replace")}')
                 raw = proc.stdout
